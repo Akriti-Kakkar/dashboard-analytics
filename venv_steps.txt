@@ -1,0 +1,18 @@
+calculation of required return
+set virtual environment and run python file:
+1. python -m venv .venv
+2. Set-ExecutionPolicy Unrestricted -Scope Process
+3. .venv\Scripts\activate
+4. python app.py
+
+
+# include try except for drawdown fig in twrin s&p (already added in baskets analysis)
+
+# use popover for each basket
+
+[theme]
+primaryColor="#f69256"
+backgroundColor="#c6cccc"
+secondaryBackgroundColor="#1d4e89"
+textColor="#000000"
+font="sans serif"
