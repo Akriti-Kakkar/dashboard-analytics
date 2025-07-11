@@ -39,7 +39,8 @@ class basket_analysis:
         cashflow_data = conn.read(worksheet=self.spreadsheet_name[4])
         change_data = conn.read(worksheet=self.spreadsheet_name[1])
         mtm_data_forex = conn.read(worksheet=self.spreadsheet_name[2])
-        mtm_data = conn.read(worksheet=self.spreadsheet_name[3])           
+        mtm_data = conn.read(worksheet=self.spreadsheet_name[3])  
+        details_data = conn.read(worksheet=self.spreadsheet_name[6])         
         capital_data = capital_data.set_index('Date')
         capital_data.index = pd.to_datetime(capital_data.index)
         cashflow_data = cashflow_data.set_index('Date')
@@ -70,6 +71,7 @@ class basket_analysis:
         mtm_data.index = pd.to_datetime(mtm_data.index)
         mtm_data = mtm_data[baskets_lst]
         
+        self.details_data = details_data
         self.mtm_data = mtm_data
         self.mtm_data_forex = mtm_data_forex
         self.change_data = change_data
@@ -974,6 +976,8 @@ class basket_analysis:
                             """,
                             unsafe_allow_html=True,
                         )   
+                        #added here
+                        det = self.details_data[x].values[0]
                         cap_data_all = cap_data[ind1:indl]
                         mtm_data_all = mtm_data[ind1:indl] 
                         change_all = change_data[ind1:indl]   
@@ -1028,7 +1032,8 @@ class basket_analysis:
                                 elif st.session_state["button60"] == True:
                                     st.session_state["button21"] = False
                                     st.success(f"""You are viewing 60-Day duration MWR stats based 
-                                               on change amounts for {x} that started on {b}""")
+                                               on change amounts for {x} that started on {b}.
+                                               Basket Manager is {det}.""")
                                     cap_data1 = cap_data.iloc[-60:]
                                     change_data1 = change_data.iloc[-60:]
                                     deposit_data1 = deposit_data.iloc[-60:]
@@ -1036,14 +1041,16 @@ class basket_analysis:
                                 elif st.session_state["button21"] == True:
                                     st.session_state["button60"] = False
                                     st.success(f"""You are viewing 21-Day duration MWR stats based 
-                                               on change amounts for {x} that started on {b}""")                                    
+                                               on change amounts for {x} that started on {b}.
+                                               Basket Manager is {det}.""")                                    
                                     cap_data2 = cap_data.iloc[-21:]
                                     change_data2 = change_data.iloc[-21:]
                                     deposit_data2 = deposit_data.iloc[-21:]
                                     self.baskets_mwr_page(x, cap_data2, change_data2, deposit_data2)                                    
                                 elif (st.session_state["button60"]!=True) and (st.session_state["button21"]!=True):
                                     st.success(f"""You are viewing MWR stats based 
-                                               on change amounts for {x} that started on {b}""")
+                                               on change amounts for {x} that started on {b}.
+                                               Basket Manager is {det}.""")
                                     self.baskets_mwr_page(x, cap_data, change_data, deposit_data)
                             elif locals()[f"{x}_stats1"] == 'MTM':
                                 if st.session_state.get(f"button60") != True:
@@ -1061,7 +1068,8 @@ class basket_analysis:
                                 elif st.session_state["button60"] == True:
                                     st.session_state["button21"] = False
                                     st.success(f"""You are viewing 60-Day duration MWR stats based 
-                                               on mtm amounts for {x} that started on {b}""")                                    
+                                               on mtm amounts for {x} that started on {b}. Basket Manager
+                                               is {det}.""")                                    
                                     cap_data3 = cap_data.iloc[-60:]
                                     mtm_data_forex3 = mtm_data_forex.iloc[-60:]
                                     deposit_data3 = deposit_data.iloc[-60:]                                
@@ -1069,14 +1077,16 @@ class basket_analysis:
                                 elif st.session_state["button21"] == True:
                                     st.session_state["button60"] = False
                                     st.success(f"""You are viewing 21-Day duration MWR stats based 
-                                               on mtm amounts for {x} that started on {b}""")                                     
+                                               on mtm amounts for {x} that started on {b}. Basket Manger
+                                               is {det}.""")                                     
                                     cap_data4 = cap_data.iloc[-21:]
                                     mtm_data_forex4 = mtm_data_forex.iloc[-21:]
                                     deposit_data4 = deposit_data.iloc[-21:]   
                                     self.baskets_mwr_page(x, cap_data4, mtm_data_forex4, deposit_data4)
                                 elif (st.session_state["button60"]!=True) and (st.session_state["button21"]!=True):                                 
                                     st.success(f"""You are viewing MWR stats based 
-                                               on mtm amounts for {x} that started on {b}""")                                     
+                                               on mtm amounts for {x} that started on {b}. Basket Manager
+                                               is {det}.""")                                     
                                     self.baskets_mwr_page(x, cap_data, mtm_data_forex, deposit_data)
                             elif locals()[f"{x}_stats1"] == 'MTM (Exc. Forex)':
                                 if st.session_state.get(f"button60") != True:
@@ -1094,7 +1104,8 @@ class basket_analysis:
                                 elif st.session_state["button60"] == True:
                                     st.session_state["button21"] = False
                                     st.success(f"""You are viewing 60-Day duration MWR stats based 
-                                               on mtm (exc. forex) amounts for {x} that started on {b}""")                                     
+                                               on mtm (exc. forex) amounts for {x} that started on {b}.
+                                               Basket Manager is {det}.""")                                     
                                     cap_data5 = cap_data.iloc[-60:]
                                     mtm_data5 = mtm_data.iloc[-60:]
                                     deposit_data5 = deposit_data.iloc[-60:]
@@ -1102,14 +1113,16 @@ class basket_analysis:
                                 elif st.session_state["button21"] == True:
                                     st.session_state["button60"] = False
                                     st.success(f"""You are viewing 21-Day duration MWR stats based 
-                                               on mtm (exc. forex) amounts for {x} that started on {b}""")                                      
+                                               on mtm (exc. forex) amounts for {x} that started on {b}.
+                                               Basket Manager is {det}.""")                                      
                                     cap_data6 = cap_data.iloc[-21:]
                                     mtm_data6 = mtm_data.iloc[-21:]
                                     deposit_data6 = deposit_data.iloc[-21:]     
                                     self.baskets_mwr_page(x, cap_data6, mtm_data6, deposit_data6)
                                 elif (st.session_state["button60"]!=True) and (st.session_state["button21"]!=True):                                                                   
                                     st.success(f"""You are viewing MWR stats based 
-                                               on mtm (exc. forex) amounts for {x} that started on {b}""")                                      
+                                               on mtm (exc. forex) amounts for {x} that started on {b}.
+                                               Basket Manager is {det}.""")                                      
                                     self.baskets_mwr_page(x, cap_data, mtm_data, deposit_data)
                         elif locals()[f'{x}_stats'] == 'TWR':
                             if locals()[f"{x}_stats1"] == 'Change':
@@ -1128,7 +1141,8 @@ class basket_analysis:
                                 elif st.session_state["button60"] == True:
                                     st.session_state["button21"] = False
                                     st.success(f"""You are viewing 60-Day duration TWR stats based 
-                                               on change amounts for {x} that started on {b}""")                                      
+                                               on change amounts for {x} that started on {b}. Basket
+                                               Manager is {det}.""")                                      
                                     cap_data7 = cap_data.iloc[-60:]
                                     change_data7 = change_data.iloc[-60:]
                                     deposit_data7 = deposit_data.iloc[-60:]
@@ -1137,7 +1151,8 @@ class basket_analysis:
                                 elif st.session_state["button21"] == True:
                                     st.session_state["button60"] = False
                                     st.success(f"""You are viewing 21-Day duration TWR stats based 
-                                               on change amounts for {x} that started on {b}""")                                       
+                                               on change amounts for {x} that started on {b}. Basket
+                                               Manager is {det}.""")                                       
                                     cap_data8 = cap_data.iloc[-21:]
                                     change_data8 = change_data.iloc[-21:]
                                     deposit_data8 = deposit_data.iloc[-21:]     
@@ -1145,7 +1160,8 @@ class basket_analysis:
                                                           cap_data_all, change_all) 
                                 elif (st.session_state["button60"]!=True) and (st.session_state["button21"]!=True):                               
                                     st.success(f"""You are viewing TWR stats based 
-                                               on change amounts for {x} that started on {b}""")                                       
+                                               on change amounts for {x} that started on {b}. Basket
+                                               Manager is {det}.""")                                       
                                     self.baskets_twr_page(x, cap_data, change_data, deposit_data,
                                                          cap_data_all, change_all)
                             if locals()[f"{x}_stats1"] == 'MTM':
@@ -1164,7 +1180,8 @@ class basket_analysis:
                                 elif st.session_state["button60"] == True:
                                     st.session_state["button21"] = False
                                     st.success(f"""You are viewing 60-Day duration TWR stats based 
-                                               on mtm amounts for {x} that started on {b}""")                                       
+                                               on mtm amounts for {x} that started on {b}. Basket
+                                               Manager is {det}.""")                                       
                                     cap_data9 = cap_data.iloc[-60:]
                                     mtm_data_forex9 = mtm_data_forex.iloc[-60:]
                                     deposit_data9 = deposit_data.iloc[-60:]
@@ -1173,7 +1190,8 @@ class basket_analysis:
                                 elif st.session_state["button21"] == True:
                                     st.session_state["button60"] = False
                                     st.success(f"""You are viewing 21-Day duration TWR stats based 
-                                               on mtm amounts for {x} that started on {b}""")                                      
+                                               on mtm amounts for {x} that started on {b}. Basket Manager
+                                               is {det}.""")                                      
                                     cap_data10 = cap_data.iloc[-21:]
                                     mtm_data_forex10 = mtm_data_forex.iloc[-21:]
                                     deposit_data10 = deposit_data.iloc[-21:]     
@@ -1181,7 +1199,8 @@ class basket_analysis:
                                                           cap_data_all, mtm_forex_all) 
                                 elif (st.session_state["button60"]!=True) and (st.session_state["button21"]!=True):                                
                                     st.success(f"""You are viewing TWR stats based 
-                                               on mtm amounts for {x} that started on {b}""")                                      
+                                               on mtm amounts for {x} that started on {b}. Basket Manager
+                                               is {det}.""")                                      
                                     self.baskets_twr_page(x, cap_data, mtm_data_forex, deposit_data,
                                                           cap_data_all, mtm_forex_all)    
                             if locals()[f"{x}_stats1"] == 'MTM (Exc. Forex)':
@@ -1200,7 +1219,8 @@ class basket_analysis:
                                 elif st.session_state["button60"] == True:
                                     st.session_state["button21"] = False
                                     st.success(f"""You are viewing 60-Day duration TWR stats based 
-                                               on mtm (exc. forex) amounts for {x} that started on {b}""")                                      
+                                               on mtm (exc. forex) amounts for {x} that started on {b}.
+                                               Basket Manager is {det}.""")                                      
                                     cap_data11 = cap_data.iloc[-60:]
                                     mtm_data11 = mtm_data.iloc[-60:]
                                     deposit_data11 = deposit_data.iloc[-60:]
@@ -1217,7 +1237,8 @@ class basket_analysis:
                                                           cap_data_all, mtm_data_all)  
                                 elif (st.session_state["button60"]!=True) and (st.session_state["button21"]!=True):                               
                                     st.success(f"""You are viewing TWR stats based 
-                                               on mtm (exc. forex) amounts for {x} that started on {b}""")                                      
+                                               on mtm (exc. forex) amounts for {x} that started on {b}.
+                                               Basket Manager is {det}.""")                                      
                                     self.baskets_twr_page(x, cap_data, mtm_data, deposit_data,
                                                           cap_data_all, mtm_data_all)                                                               
                

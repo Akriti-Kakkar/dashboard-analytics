@@ -1,7 +1,7 @@
 import streamlit as st
 from PIL import Image
 from streamlit_gsheets import GSheetsConnection
-import schedule
+#import schedule
 from datetime import datetime
 import pytz
 import time
@@ -46,6 +46,7 @@ class homepage:
      
     def read_data(self):
         read_obj1 = self.conn.read(worksheet="change", ttl="300m")
+        read_obj2 = self.conn.read(worksheet="basket_details")
         read_obj1 = read_obj1.set_index("Date")
         read_obj1.index = pd.to_datetime(read_obj1.index)
         start = read_obj1.index.min()
@@ -55,6 +56,7 @@ class homepage:
         lst_yr = read_obj1["Year"].max()
         self.change_frame = change_frame
         self.read_obj1 = read_obj1
+        self.read_obj2 = read_obj2
         self.lst_year = lst_yr
         
     def create_stats(self):
@@ -77,17 +79,21 @@ class homepage:
         self.sort_baskets_lst1 = sort_baskets_lst1
         
     def stats(self, basket):
+        ind1 = self.change_frame[self.sort_baskets_lst1[basket]].first_valid_index()
+        ind2 = self.change_frame[self.sort_baskets_lst1[basket]].last_valid_index()
+        this_frame = self.frame1.loc[ind1:ind2]                
         new_dict = {}
+        new_dict["Basket Manager"] = self.read_obj2[self.sort_baskets_lst1[basket]]
         new_dict["Inception Date"] = self.change_frame[self.sort_baskets_lst1[basket]].first_valid_index()
         new_dict["Inception PnL"] = self.change_frame[self.sort_baskets_lst1[basket]].sum()
         new_dict["Stats For Year"] = self.lst_year
-        new_dict["PnL"] = self.frame1[self.sort_baskets_lst1[basket]].sum()
-        new_dict["Daily PnL"] = self.frame1[self.sort_baskets_lst1[basket]].mean()
-        new_dict["Maximum PnL"] = self.frame1[self.sort_baskets_lst1[basket]].max()
-        new_dict["Minimum PnL"] = self.frame1[self.sort_baskets_lst1[basket]].min()
-        new_dict["Stdev"] = self.frame1[self.sort_baskets_lst1[basket]].std()
-        new_dict["Positive Days"] = win_days(self.frame1, self.sort_baskets_lst1[basket])
-        new_dict["Negative Days"] = loss_days(self.frame1, self.sort_baskets_lst1[basket])      
+        new_dict["PnL"] = this_frame[self.sort_baskets_lst1[basket]].sum()
+        new_dict["Daily PnL"] = this_frame[self.sort_baskets_lst1[basket]].mean()
+        new_dict["Maximum PnL"] = this_frame[self.sort_baskets_lst1[basket]].max()
+        new_dict["Minimum PnL"] = this_frame[self.sort_baskets_lst1[basket]].min()
+        new_dict["Stdev"] = this_frame[self.sort_baskets_lst1[basket]].std()
+        new_dict["Positive Days"] = win_days(this_frame, self.sort_baskets_lst1[basket])
+        new_dict["Negative Days"] = loss_days(this_frame, self.sort_baskets_lst1[basket])      
         self.new_dict = new_dict
         
     def inner_tab(self, basket, emoji, rank, tcol1, tcol2, tcol3):
@@ -95,8 +101,8 @@ class homepage:
         with tcol1:
             st.info("YTD Ranking", icon='📌')
             st.metric("YTD Ranking", value=emoji, delta=rank)
-            st.info("Stats For The Year", icon='📌')
-            st.metric("Stats For The Year", value=int(self.new_dict["Stats For Year"]))
+            st.info("Inception Date", icon='📌')
+            st.metric("Inception Date", value=str(self.new_dict["Inception Date"].date()))            
             pnl3 = locale.currency(self.new_dict["Maximum PnL"], grouping=True, symbol=True) 
             st.info("Maximum Daily PnL (YTD)", icon='📌')                     
             st.metric("Maximum Daily PnL (YTD)", value=f"{pnl3}")     
@@ -106,18 +112,20 @@ class homepage:
             st.info("Inception PnL", icon='📌')
             pnl = locale.currency(self.new_dict["Inception PnL"], grouping=True,
                                 symbol=True)
-            pnl1 = locale.currency(self.new_dict["PnL"], grouping=True, symbol=True)
             st.metric("Inception PnL", value=f"{pnl}")
-            st.info("YTD PnL", icon='📌')
-            st.metric("YTD PnL", value=f"{pnl1}")
+            st.info("Stats For The Year", icon='📌')
+            st.metric("Stats For The Year", value=int(self.new_dict["Stats For Year"]))            
             pnl4 = locale.currency(self.new_dict["Minimum PnL"], grouping=True, symbol=True)
             st.info("Minimum Daily PnL (YTD)", icon='📌')                     
             st.metric("Minimum Daily PnL (YTD)", value=f"{pnl4}")    
             st.info("Negative Days (YTD)", icon='📌')                     
             st.metric("Negative Days (YTD)", value=f"""{self.new_dict["Negative Days"]} Days""")                             
         with tcol3:
-            st.info("Inception Date", icon='📌')
-            st.metric("Inception Date", value=str(self.new_dict["Inception Date"].date()))
+            st.info("Basket Manager", icon='📌')
+            st.metric("Basket Manager", value=f"{self.new_dict["Basket Manager"].values[0]}")    
+            pnl1 = locale.currency(self.new_dict["PnL"], grouping=True, symbol=True)                    
+            st.info("YTD PnL", icon='📌')
+            st.metric("YTD PnL", value=f"{pnl1}")
             pnl2 = locale.currency(self.new_dict["Daily PnL"], grouping=True, symbol=True)
             st.info("Daily PnL (YTD)", icon='📌')                     
             st.metric("Daily PnL (YTD)", value=f"{pnl2}")
