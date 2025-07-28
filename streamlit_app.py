@@ -22,13 +22,14 @@ class homepage:
 
     def page_config(self):
         # Show a navigation menu for authenticated users
-        st.set_page_config(page_title='Dashboard', page_icon='🌎', layout="wide",
+        st.set_page_config(page_title='Dashboard', page_icon='🗺', layout="wide",
                            initial_sidebar_state="expanded")
         # Load your image
         image = Image.open("htts_fund_logo.png")
         st.sidebar.image(image, caption="HTTS Fund", output_format="PNG")
         st.header(r":blue-background[:blue[$$Performance$$ $\>$ $$Analysis$$ $\>$ $$Dashboard$$]]")
         st.sidebar.write(r"🔗:blue-background[:blue[$$Navigation$$ $\>$ $$Pane$$]]")
+        st.sidebar.page_link("pages/comp_screen.py", label=r":blue-background[:blue[$$Comparative$$ $\>$ $$Screener$$]]",icon="🔗")
         st.sidebar.page_link("pages/baskets_analysis.py", label=r":blue-background[:blue[$$Compare$$ $\>$ $$your$$ $\>$ $$baskets$$ $\>$ $$with$$ $\>$ $$SnP$$]]",icon="🔗")
         st.sidebar.page_link("pages/_index_analysis.py", label=r":blue-background[:blue[$$SnP$$ $\>$ $$Analysis$$]]",icon="🔗")
         st.sidebar.markdown('<a href="Akriti.Kakkar@httsfund.com">Email: Akriti.Kakkar@httsfund.com</a>', unsafe_allow_html=True)
@@ -122,7 +123,7 @@ class homepage:
             st.metric("Negative Days (YTD)", value=f"""{self.new_dict["Negative Days"]} Days""")                             
         with tcol3:
             st.info("Basket Manager", icon='📌')
-            st.metric("Basket Manager", value=f"{self.new_dict['Basket Manager'].values[0]}")    
+            st.metric("Basket Manager", value=f"{self.new_dict["Basket Manager"].values[0]}")    
             pnl1 = locale.currency(self.new_dict["PnL"], grouping=True, symbol=True)                    
             st.info("YTD PnL", icon='📌')
             st.metric("YTD PnL", value=f"{pnl1}")

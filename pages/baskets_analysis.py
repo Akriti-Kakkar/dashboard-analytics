@@ -3,7 +3,6 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from stats import *
-import streamlit as st
 from streamlit_gsheets import GSheetsConnection
 import locale
 import plotly.express as px
@@ -24,7 +23,7 @@ class basket_analysis:
     
     @staticmethod
     def page_config() -> None:
-        st.set_page_config(page_title='Dashboard', page_icon='🌎', initial_sidebar_state="expanded")
+        st.set_page_config(page_title='Dashboard', page_icon='🗺', initial_sidebar_state="expanded")
         st.sidebar.image('htts_fund_logo.png', caption='HTTS Fund')
         #st.subheader('📈 Baskets Vs S&P Analysis')
         # Inject custom CSS to set the width of the sidebar
