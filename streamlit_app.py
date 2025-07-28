@@ -123,7 +123,7 @@ class homepage:
             st.metric("Negative Days (YTD)", value=f"""{self.new_dict["Negative Days"]} Days""")                             
         with tcol3:
             st.info("Basket Manager", icon='📌')
-            st.metric("Basket Manager", value=f"{self.new_dict["Basket Manager"].values[0]}")    
+            st.metric("Basket Manager", value=f"{self.new_dict['Basket Manager'].values[0]}")    
             pnl1 = locale.currency(self.new_dict["PnL"], grouping=True, symbol=True)                    
             st.info("YTD PnL", icon='📌')
             st.metric("YTD PnL", value=f"{pnl1}")
