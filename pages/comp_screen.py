@@ -24,7 +24,7 @@ class comp_analysis:
     
     @staticmethod
     def page_config() -> None:
-        st.set_page_config(page_title='Dashboard', page_icon='🗺', initial_sidebar_state="expanded")
+        st.set_page_config(page_title='Dashboard', page_icon='🗺', initial_sidebar_state="collapsed")
         st.sidebar.image('htts_fund_logo.png', caption='HTTS Fund')
         st.subheader('📈 Comparative Screener')
         # Inject custom CSS to set the width of the sidebar
@@ -216,7 +216,6 @@ class comp_analysis:
                     ('Last 21 Days PnL', 'S&P')
                 ]
             
-            st.write(f"Last Updated On {end_date}")
 
             def refine(dataframe, col_pnl):
                 dataframe.columns = dataframe.columns.droplevel(0)
@@ -299,9 +298,11 @@ class comp_analysis:
             with col_sp1:
                 #pie_chart(data_comp1, "Inception")
                 #pie_chart(data_comp1_qtd, "QTD")
+                st.write(f"Last Updated On {end_date.date()}")
                 div_chart(data_comp1, "Inception")
                 div_chart(data_comp1_qtd, "QTD")
             st.divider()
+            st.write(f"Last Updated On {end_date.date()}")
             st.title("Inception Till Date PnL: Basket Vs S&P")
             
             locale.setlocale( locale.LC_ALL, 'en_CA.UTF-8' )                     
@@ -377,6 +378,7 @@ class comp_analysis:
                 st.plotly_chart(fig, use_container_width=True)     
             bar_graph(pnl_table1_ind1, "Inception")
             st.divider()
+            st.write(f"Last Updated On {end_date.date()}")
             st.title('Year-Till-Date PnL: Baskets Vs S&P')  
             pnl_table2 = styled_data([
                 ("", "Active Baskets"), ("YTD PnL", "Basket"),
@@ -385,6 +387,7 @@ class comp_analysis:
             st.table(pnl_table2[0])
             bar_graph(pnl_table2[1], "YTD")
             st.divider()
+            st.write(f"Last Updated On {end_date.date()}")
             st.title("Last 6 Months PnL: Baskets Vs S&P")
             pnl_table3 = styled_data([
                 ("", "Active Baskets"), ("Last 6 Months PnL", "Basket"),
@@ -394,6 +397,7 @@ class comp_analysis:
             st.table(pnl_table3[0])
             bar_graph(pnl_table3[1], "Last 6 Months")
             st.divider()
+            st.write(f"Last Updated On {end_date.date()}")
             st.title("QTD PnL: Baskets Vs S&P")
             pnl_table4 = styled_data([
                 ("", "Active Baskets"), ("QTD PnL", "Basket"),
@@ -402,6 +406,7 @@ class comp_analysis:
             st.table(pnl_table4[0])
             bar_graph(pnl_table4[1], "QTD")
             st.divider()
+            st.write(f"Last Updated On {end_date.date()}")
             st.title("Last 60 Days PnL: Baskets Vs PnL")
             pnl_table5 = styled_data([
                 ("", "Active Baskets"), ("Last 60 Days PnL", "Basket"),
@@ -410,6 +415,7 @@ class comp_analysis:
             st.table(pnl_table5[0])
             bar_graph(pnl_table5[1], "Last 60 Days")
             st.divider()
+            st.write(f"Last Updated On {end_date.date()}")
             st.title("Last 21 Days PnL: Baskets Vs PnL")
             pnl_table6 = styled_data(
                 [("", "Active Baskets"), ("Last 21 Days PnL", "Basket"),
@@ -418,6 +424,7 @@ class comp_analysis:
             st.table(pnl_table6[0])
             bar_graph(pnl_table6[1], "Last 21 Days")
             st.divider()
+            st.write(f"Last Updated On {end_date.date()}")
             st.title("MTD PnL: Baskets Vs S&P")
             pnl_table7 = styled_data(
                 [("", "Active Baskets"), ("MTD PnL", "Basket"),
@@ -426,6 +433,7 @@ class comp_analysis:
             st.table(pnl_table7[0])
             bar_graph(pnl_table7[1], "MTD")
             st.divider()
+            st.write(f"Last Updated On {end_date.date()}")
             st.title("Last 1 Day PnL: Baskets Vs S&p")
             pnl_table8 = styled_data(
                 [("", "Active Baskets"), ("Last 1 Day PnL", "Basket"),
@@ -434,6 +442,7 @@ class comp_analysis:
             st.table(pnl_table8[0])
             bar_graph(pnl_table8[1], "Last 1 Day")
             with col_sp2:
+                st.write(f"Last Updated On {end_date.date()}")
                 #pie_chart(data_comp1_ytd, "YTD")
                 #pie_chart(data_comp1_6m, "Last 6 Months")
                 div_chart(data_comp1_ytd, "YTD")
