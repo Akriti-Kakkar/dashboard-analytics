@@ -303,7 +303,7 @@ class comp_analysis:
                 div_chart(data_comp1_qtd, "QTD")
             st.divider()
             st.write(f"Last Updated On {end_date.date()}")
-            st.title("Inception Till Date PnL: Basket Vs S&P")
+            st.title("Inception Till Date PnL: Baskets Vs S&P")
             
             locale.setlocale( locale.LC_ALL, 'en_CA.UTF-8' )                     
             # Format currency with -$ for negatives
