@@ -407,7 +407,7 @@ class comp_analysis:
             bar_graph(pnl_table4[1], "QTD")
             st.divider()
             st.write(f"Last Updated On {end_date.date()}")
-            st.title("Last 60 Days PnL: Baskets Vs PnL")
+            st.title("Last 60 Days PnL: Baskets Vs S&P")
             pnl_table5 = styled_data([
                 ("", "Active Baskets"), ("Last 60 Days PnL", "Basket"),
                 ("Last 60 Days PnL", "S&P"), ("Last 60 Days PnL", "Basket - S&P")
@@ -416,7 +416,7 @@ class comp_analysis:
             bar_graph(pnl_table5[1], "Last 60 Days")
             st.divider()
             st.write(f"Last Updated On {end_date.date()}")
-            st.title("Last 21 Days PnL: Baskets Vs PnL")
+            st.title("Last 21 Days PnL: Baskets Vs S&P")
             pnl_table6 = styled_data(
                 [("", "Active Baskets"), ("Last 21 Days PnL", "Basket"),
                  ("Last 21 Days PnL", "S&P"), ("Last 21 Days PnL", "Basket - S&P")]
@@ -434,7 +434,7 @@ class comp_analysis:
             bar_graph(pnl_table7[1], "MTD")
             st.divider()
             st.write(f"Last Updated On {end_date.date()}")
-            st.title("Last 1 Day PnL: Baskets Vs S&p")
+            st.title("Last 1 Day PnL: Baskets Vs S&P")
             pnl_table8 = styled_data(
                 [("", "Active Baskets"), ("Last 1 Day PnL", "Basket"),
                  ("Last 1 Day PnL", "S&P"), ("Last 1 Day PnL", "Basket - S&P")]
