@@ -215,6 +215,8 @@ class comp_analysis:
                 ('Last 21 Days PnL', 'Basket')] - pnl_comp[
                     ('Last 21 Days PnL', 'S&P')
                 ]
+            
+            st.write(f"Last Updated On {end_date}")
 
             def refine(dataframe, col_pnl):
                 dataframe.columns = dataframe.columns.droplevel(0)
